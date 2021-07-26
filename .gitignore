@@ -1,0 +1,35 @@
+# Eclipse #
+.settings
+.project
+.classpath
+
+# IDEA #
+.idea/
+*.iml
+
+# Maven #
+target/
+/*/target
+pom.xml.versionsBackup
+
+
+# JRebel #
+rebel.xml
+rebel-remote.xml
+.rebel.xml.bak
+.rebel-remote.xml.bak
+
+
+# Log #
+*.log
+
+# Other #
+*.class
+*.jar
+classes
+out
+${project.logs.dir}
+tmp-api.json
+.swagger*
+*-client
+project.logs.dir*
