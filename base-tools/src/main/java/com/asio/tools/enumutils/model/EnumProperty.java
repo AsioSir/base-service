@@ -1,6 +1,6 @@
 package com.asio.tools.enumutils.model;
 
-import com.asio.tools.enumutils.EnumUtil;
+import com.asio.tools.enumutils.EnumUtils;
 import com.asio.tools.enumutils.enums.BaseEnum;
 import com.asio.tools.loggerutils.LoggerUtils;
 
@@ -41,18 +41,18 @@ public class EnumProperty<K, V> implements Serializable {
         Method valueMethod = null;
         boolean isValueMethodAccessible = true;
         try {
-            if (EnumUtil.FIELD_VALUE.equals(keyFieldType)) {
+            if (EnumUtils.FIELD_VALUE.equals(keyFieldType)) {
                 keyMethod = baseEnum.getClass().getDeclaredMethod("getValue");
-            } else if (EnumUtil.FIELD_CODE.equals(keyFieldType)) {
+            } else if (EnumUtils.FIELD_CODE.equals(keyFieldType)) {
                 keyMethod = baseEnum.getClass().getDeclaredMethod("getCode");
-            } else if (EnumUtil.FIELD_NAME.equals(keyFieldType)) {
+            } else if (EnumUtils.FIELD_NAME.equals(keyFieldType)) {
                 keyMethod = baseEnum.getClass().getDeclaredMethod("getName");
             }
-            if (EnumUtil.FIELD_VALUE.equals(valueFieldType)) {
+            if (EnumUtils.FIELD_VALUE.equals(valueFieldType)) {
                 valueMethod = baseEnum.getClass().getDeclaredMethod("getValue");
-            } else if (EnumUtil.FIELD_CODE.equals(valueFieldType)) {
+            } else if (EnumUtils.FIELD_CODE.equals(valueFieldType)) {
                 valueMethod = baseEnum.getClass().getDeclaredMethod("getCode");
-            } else if (EnumUtil.FIELD_NAME.equals(valueFieldType)) {
+            } else if (EnumUtils.FIELD_NAME.equals(valueFieldType)) {
                 valueMethod = baseEnum.getClass().getDeclaredMethod("getName");
             }
             if (keyMethod != null && valueMethod != null) {

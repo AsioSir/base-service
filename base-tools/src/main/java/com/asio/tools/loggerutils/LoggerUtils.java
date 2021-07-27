@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author: asio
  * @time: 2021-07-26 14:18
- * 描述:  日志工具类
+ * 描述: 日志工具类  需要引入slf4j-api、slf4j-nop、slf4j-log4j12
  */
 public class LoggerUtils {
 
