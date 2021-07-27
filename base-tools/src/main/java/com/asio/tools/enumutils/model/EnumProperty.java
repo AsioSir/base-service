@@ -17,35 +17,42 @@ public class EnumProperty<K, V> implements Serializable {
     private static  final long serialVersionUID = 20210725120000L;
 
     //对应key值
-    private K value;
+    private K key;
 
     //对应value值
-    private V name;
+    private V value;
 
-    public EnumProperty(K value, V name) {
+    public EnumProperty(K key, V value) {
+        this.key = key;
         this.value = value;
-        this.name = name;
     }
 
-
-    public static <K, V> EnumProperty<K, V> of(BaseEnum baseEnum, String fieldType1, String fieldType2) {
+    /**
+     * @author asio
+     * @time 2021-07-27 11:09
+     * @param baseEnum 枚举类class[基类]
+     * @param keyFieldType
+     * @param valueFieldType
+     * description: 将枚举中的字段转为key-value对象【EnumProperty】
+     */
+    public static <K, V> EnumProperty<K, V> of(BaseEnum baseEnum, String keyFieldType, String valueFieldType) {
         Method keyMethod = null;
         boolean isKeyMethodAccessible = true;
         Method valueMethod = null;
         boolean isValueMethodAccessible = true;
         try {
-            if (EnumUtil.FIELD_VALUE.equals(fieldType1)) {
+            if (EnumUtil.FIELD_VALUE.equals(keyFieldType)) {
                 keyMethod = baseEnum.getClass().getDeclaredMethod("getValue");
-            } else if (EnumUtil.FIELD_CODE.equals(fieldType1)) {
+            } else if (EnumUtil.FIELD_CODE.equals(keyFieldType)) {
                 keyMethod = baseEnum.getClass().getDeclaredMethod("getCode");
-            } else if (EnumUtil.FIELD_NAME.equals(fieldType1)) {
+            } else if (EnumUtil.FIELD_NAME.equals(keyFieldType)) {
                 keyMethod = baseEnum.getClass().getDeclaredMethod("getName");
             }
-            if (EnumUtil.FIELD_VALUE.equals(fieldType2)) {
+            if (EnumUtil.FIELD_VALUE.equals(valueFieldType)) {
                 valueMethod = baseEnum.getClass().getDeclaredMethod("getValue");
-            } else if (EnumUtil.FIELD_CODE.equals(fieldType2)) {
+            } else if (EnumUtil.FIELD_CODE.equals(valueFieldType)) {
                 valueMethod = baseEnum.getClass().getDeclaredMethod("getCode");
-            } else if (EnumUtil.FIELD_NAME.equals(fieldType2)) {
+            } else if (EnumUtil.FIELD_NAME.equals(valueFieldType)) {
                 valueMethod = baseEnum.getClass().getDeclaredMethod("getName");
             }
             if (keyMethod != null && valueMethod != null) {
@@ -70,19 +77,19 @@ public class EnumProperty<K, V> implements Serializable {
         return null;
     }
 
-    public K getValue() {
+    public K getKey() {
+        return key;
+    }
+
+    public void setKey(K key) {
+        this.key = key;
+    }
+
+    public V getValue() {
         return value;
     }
 
-    public void setValue(K value) {
+    public void setValue(V value) {
         this.value = value;
-    }
-
-    public V getName() {
-        return name;
-    }
-
-    public void setName(V name) {
-        this.name = name;
     }
 }

@@ -7,9 +7,9 @@ package com.asio.tools.enumutils.enums;
  */
 public enum TestEnum implements BaseEnum<TestEnum, Integer> {
 
-    JAVA(1, "java", "Java分类"),
-    ANDROID(2, "android", "Android分类"),
-    PYTHON(3, "python", "Python分类"),
+    JAVA        (1, "java", "Java分类"),
+    ANDROID     (2, "android", "Android分类"),
+    PYTHON      (3, "python", "Python分类"),
     ;
 
     TestEnum(Integer value, String code, String name) {
