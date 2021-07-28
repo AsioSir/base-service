@@ -32,7 +32,7 @@ public class LoggerUtils {
     /*
         warn警告日志
      */
-    public void warn(String msg) {
+    public static void warn(String msg) {
         LoggerFactory.getLogger(getClassName()).warn(msg);
     }
 
@@ -53,7 +53,7 @@ public class LoggerUtils {
     /*
       debug调试日志
    */
-    public void debug(String msg) {
+    public static void debug(String msg) {
         LoggerFactory.getLogger(getClassName()).debug(msg);
     }
 
@@ -74,7 +74,7 @@ public class LoggerUtils {
     /*
         info信息日志
      */
-    public void info(String msg) {
+    public static void info(String msg) {
         LoggerFactory.getLogger(getClassName()).info(msg);
     }
 
