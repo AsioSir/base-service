@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 文件必须命名为settings.xml -->
+
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+    <localRepository>D:/Path/MavenHome</localRepository>
+
+
+    <mirrors>
+        <!-- 阿里云仓库 -->
+        <mirror>
+            <id>alimaven</id>
+            <mirrorOf>alimaven</mirrorOf>
+            <name>aliyun maven</name>
+            <url>http://maven.aliyun.com/nexus/content/repositories/central/</url>
+        </mirror>
+        <!-- 中央仓库华为 -->
+        <mirror>
+            <id>huawei</id>
+            <mirrorOf>huawei</mirrorOf>
+            <name>huawei maven</name>
+            <url>https://mirrors.huaweicloud.com/repository/maven/</url>
+        </mirror>
+    </mirrors>
+
+
+    <profiles>
+        <profile>
+            <id>alimaven</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <jdk>1.8</jdk>
+            </activation>
+            <repositories>
+                <repository>
+                    <id>alimaven</id>
+                    <name>aliyun maven</name>
+                    <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+                    <releases><enabled>true</enabled></releases>
+                    <snapshots><enabled>true</enabled></snapshots>
+                </repository>
+            </repositories>
+        </profile>
+
+        <profile>
+            <id>huawei</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <jdk>1.8</jdk>
+            </activation>
+            <repositories>
+                <repository>
+                    <id>huawei</id>
+                    <name>huawei maven</name>
+                    <url>https://mirrors.huaweicloud.com/repository/maven/</url>
+                    <releases><enabled>true</enabled></releases>
+                    <snapshots><enabled>true</enabled></snapshots>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
+    <!--激活上面配置的仓库信息-->
+    <activeProfiles>
+        <activeProfile>alimaven</activeProfile>
+        <activeProfile>huawei</activeProfile>
+    </activeProfiles>
+</settings>

@@ -102,8 +102,8 @@
     <!--选用阿里云仓库（或公司私有仓库）-->
     <distributionManagement>
         <repository>
-            <id>nexus-aliyun</id>
-            <name>Nexus aliyun</name>
+            <id>alimaven</id>
+            <name>aliyun maven</name>
             <url>http://maven.aliyun.com/nexus/content/groups/public</url>
         </repository>
     </distributionManagement>
