@@ -11,7 +11,8 @@
 
     <!--子模块-->
     <modules>
-        <module>base-tools</module>
+        <module>tools-service</module>
+        <module>swagger-service</module>
     </modules>
 
     <properties>
