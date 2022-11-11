@@ -1,5 +1,7 @@
 package com.asio.tools.streamutils;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.json.JSONUtil;
 import com.asio.tools.streamutils.model.Person;
@@ -58,19 +60,34 @@ public class StreamUtils {
      */
     public static<T, K>List<K> extractFieldToList(List<T> sourceList, Function<? super T, ? extends K> classifier,
                                                   Predicate<? super T> predicate, boolean isDistinct) {
+        if (CollUtil.isEmpty(sourceList)) {
+            return CollUtil.newArrayList();
+        }
         Stream<T> stream = sourceList.stream();
         //过滤
         if (predicate != null) {
             stream = stream.filter(predicate);
         }
         Stream<? extends K> targetStream = stream.map(classifier);
-        //是否去重
+        //去重
         if (isDistinct) {
             return targetStream.distinct().collect(Collectors.toList());
-        } else {
-            return targetStream.collect(Collectors.toList());
         }
+        return targetStream.collect(Collectors.toList());
     }
+
+    /**
+     * @param sourceList 原list集合对象
+     * @param predicate 过滤lambda表达式
+     * @return List<T>
+     */
+    public static <T> List<T> filter(List<T> sourceList, Predicate<? super T> predicate) {
+        if (CollUtil.isEmpty(sourceList)) {
+            return CollUtil.newArrayList();
+        }
+        return sourceList.stream().filter(predicate).collect(Collectors.toList());
+    }
+
 
     /**
      * Description: 将list集合对象转为map,value为list对象值，key重复时默认新增覆盖旧值
@@ -80,8 +97,27 @@ public class StreamUtils {
      * @param keyMapper key值lambda表达式
      */
     public static <T, K> Map<K,T> extractFieldToMap(List<T> sourceList, Function<? super T, ? extends K> keyMapper) {
+        if (CollUtil.isEmpty(sourceList)) {
+            return MapUtil.newHashMap();
+        }
         return sourceList.stream().collect(Collectors.toMap(keyMapper, Function.identity(), (v1, v2) -> v2));
     }
+
+    /**
+     * Description: 将list集合对象转为map,value为list对象值，key重复时默认新增覆盖旧值
+     * @author asio
+     * @time 2021-07-27 20:56
+     * @param sourceList 原list集合对象
+     * @param keyMapper key值lambda表达式
+     * @param valueMapper value值lambda表达式
+     */
+    public static <T, K, U> Map<K,U> extractFieldToMap(List<T> sourceList, Function<? super T, ? extends K> keyMapper,  Function<? super T, ? extends U> valueMapper) {
+        if (CollUtil.isEmpty(sourceList)) {
+            return MapUtil.newHashMap();
+        }
+        return sourceList.stream().collect(Collectors.toMap(keyMapper, valueMapper));
+    }
+
 
     /**
      * Description: 将list对象集合转为map集合，key重复是否覆盖
@@ -94,12 +130,14 @@ public class StreamUtils {
      */
     public static <T, K, U> Map<K,U> extractFieldToMap(List<T> sourceList, Function<? super T, ? extends K> keyMapper,
                                                        Function<? super T, ? extends U> valueMapper, boolean isCover) {
+        if (CollUtil.isEmpty(sourceList)) {
+            return MapUtil.newHashMap();
+        }
         //key值相同时是否使用新值覆盖旧值
         if (isCover) {
             return sourceList.stream().collect(Collectors.toMap(keyMapper, valueMapper, (key1, key2) -> key2));
-        } else {
-            return sourceList.stream().collect(Collectors.toMap(keyMapper, valueMapper, (key1, key2) -> key1));
         }
+        return sourceList.stream().collect(Collectors.toMap(keyMapper, valueMapper, (key1, key2) -> key1));
     }
 
     /**
@@ -114,6 +152,9 @@ public class StreamUtils {
     public static <T, K, U> Map<K,U> extractFieldToMap(List<T> sourceList, Function<? super T, ? extends K> keyMapper,
                                                        Function<? super T, ? extends U> valueMapper,
                                                        BinaryOperator<U> mergeFunction) {
+        if (CollUtil.isEmpty(sourceList)) {
+            return MapUtil.newHashMap();
+        }
         //key值相同时是否使用新值覆盖旧值
         return sourceList.stream().collect(Collectors.toMap(keyMapper, valueMapper, mergeFunction));
     }
@@ -127,6 +168,9 @@ public class StreamUtils {
      * @param classifier 提取字段lambda表单式
      */
     public static  <T, K> Map<K, List<T>> groupListToMap(List<T> sourceList, Function<? super T, ? extends K> classifier) {
+        if (CollUtil.isEmpty(sourceList)) {
+            return MapUtil.newHashMap();
+        }
         return sourceList.stream().collect(Collectors.groupingBy(classifier));
     }
 
@@ -140,6 +184,9 @@ public class StreamUtils {
      */
     public static  <T, K> Map<K, List<T>> groupListToMap(List<T> sourceList, Function<? super T, ? extends K> classifier,
                                                          Predicate<? super T> predicate) {
+        if (CollUtil.isEmpty(sourceList)) {
+            return MapUtil.newHashMap();
+        }
         return sourceList.stream().filter(predicate).collect(Collectors.groupingBy(classifier));
     }
 
@@ -152,6 +199,9 @@ public class StreamUtils {
      * @param operationType 计算方式
      */
     public static <T> Number operationNumberByList(List<T> sourceList,  Function<? super T, Number> classifier, String operationType) {
+        if (CollUtil.isEmpty(sourceList)) {
+            return null;
+        }
         Optional<Number> reduceOptional = null;
         if (StreamUtils.ADD_OPERATION.equals(operationType)) {
             reduceOptional = sourceList.stream().map(classifier).reduce(NumberUtil::add);
@@ -173,6 +223,9 @@ public class StreamUtils {
      * @param keyMapper 排序字段lambda表达式
      */
     public static <T, K extends Comparable<? super K>> List<T> sortListAsc(List<T> sourceList, Function<? super T, ? extends K> keyMapper) {
+        if (CollUtil.isEmpty(sourceList)) {
+            return CollUtil.newArrayList();
+        }
         Comparator<? super T> comparing = Comparator.comparing(keyMapper);
         return sourceList.stream().sorted(comparing).collect(Collectors.toList());
     }
@@ -185,6 +238,9 @@ public class StreamUtils {
      * @param keyMapper 排序字段lambda表达式
      */
     public static <T, K extends Comparable<? super K>> List<T> sortListDesc(List<T> sourceList, Function<? super T, ? extends K> keyMapper) {
+        if (CollUtil.isEmpty(sourceList)) {
+            return CollUtil.newArrayList();
+        }
         Comparator<? super T> comparing = Comparator.comparing(keyMapper).reversed();
         return sourceList.stream().sorted(comparing).collect(Collectors.toList());
     }
@@ -200,6 +256,9 @@ public class StreamUtils {
     public static <T, K extends Comparable<? super K>> List<T> sortList(List<T> sourceList,
                                                                         Function<? super T, ? extends K> keyMapper,
                                                                         Comparator<? super K> keyComparator) {
+        if (CollUtil.isEmpty(sourceList)) {
+            return CollUtil.newArrayList();
+        }
         Comparator<? super T> comparing = Comparator.comparing(keyMapper, keyComparator).reversed();
         return sourceList.stream().sorted(comparing).collect(Collectors.toList());
     }
