@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workbook>
+    <worksheet name="明细">
+        <loop startRow="2" items="expressDatas1"
+              var="model"
+              varType="com.szjlc.payable.business.express.pojo.bo.ExpressTemplateExcelBO">
+            <section>
+                <mapping col="3">model.expressNo</mapping>
+                <mapping col="9">model.settlementOrganizeName</mapping>
+                <mapping col="12">model.deliverTimeStr</mapping>
+                <mapping col="14">model.deliverProvince</mapping>
+                <mapping col="15">model.deliverCity</mapping>
+                <mapping col="16">model.receiveProvince</mapping>
+                <mapping col="17">model.receiveCity</mapping>
+                <mapping col="27">model.weight</mapping>
+                <mapping col="29">model.volume</mapping>
+                <mapping col="34">model.packageQuantity</mapping>
+                <mapping col="37">model.productTypeName</mapping>
+                <mapping col="54">model.totalAmount</mapping>
+                <mapping col="21">model.expressSettlementTypeName</mapping>
+            </section>
+        </loop>
+    </worksheet>
+</workbook>
